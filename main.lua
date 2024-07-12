@@ -1,5 +1,5 @@
 -- Snag the ui loader function thingy (loadstring the link, but dont call it)
-local uiLoader = loadstring(game:HttpGet('https://raw.githubusercontent.com/topitbopit/dollarware/main/library.lua'))
+local uiLoader = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/library.lua'))
 -- Because of the way the library loads, settings are handled on the loadstring call
 local ui = uiLoader({
     rounding = false, -- Whether certain features get rounded 
