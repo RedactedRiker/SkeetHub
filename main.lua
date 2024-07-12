@@ -1,10 +1,14 @@
-Dronelocal Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/NeverJar/ImpactUI/main/ImpactUI.lua"))()
+local Library = loadstring(game:HttpGet(
+                               "https://raw.githubusercontent.com/NeverJar/ImpactUI/main/ImpactUI.lua"))()
 local Window = Library:Create("SkeetHub", "v1.1")
+local menuKey = Enum.KeyCode.Insert
 
-local Tab1 = Window:Tab1("Aimbot", true)
-local Tab2 = Window:Tab1("Visuals", true)
-local Tab3 = Window:Tab1("Misc", true)
-local Tab4 = Window:Tab1("Settings", true)
+local UserInputService = game:GetService("UserInputService")
+
+local Tab1 = Window:Tab("Aimbot", true)
+local Tab2 = Window:Tab("Visuals", true)
+local Tab3 = Window:Tab("Misc", true)
+local Tab4 = Window:Tab("Settings", true)
 --[[
   NAME: STRING
   VISIBILITY: BOOLEAN
@@ -23,11 +27,12 @@ end)
   PLACEHOLDER: STRING
 ]]
 
-Tab1:Keybind("Keybind Name", Enum.KeyCode.G, function()
+Tab1:Keybind("Keybind Name", Enum.KeyCode.RightShift, function()
     -- Code here
 end)
 
-Tab1:Dropdown("Dropdow Name", {"Option 1", "Option 2", "Option 3"}, function(current)
+Tab1:Dropdown("Dropdow Name", {"Option 1", "Option 2", "Option 3"},
+              function(current)
     -- Code here
 end)
 
@@ -44,7 +49,7 @@ end)
   NAME: STRING
 ]]
 
-Tab1:Slider("Slider Name", 16, 500, function(value)
+Tab1:Slider("Slider Name", 0, 100, function(value)
     -- Code here
 end)
 
@@ -53,3 +58,13 @@ end)
   MIN-VALUE: INT
   MAX-VALUE: INT
 ]]
+
+
+
+--// Extra
+
+UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+    if not gameProcessedEvent and input.KeyCode == menuKey then
+        Window.Visible = not Window.Visible
+    end
+end)
