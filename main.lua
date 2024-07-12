@@ -1,217 +1,89 @@
-print("Starting!!!")
+local DarkraiX = loadstring(game:HttpGet("https://raw.githubusercontent.com/GamingScripter/Kavo-Ui/main/Darkrai%20Ui", true))()
 
--- Snag the ui loader function thingy (loadstring the link, but dont call it)
-local uiLoader = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/library.lua'))
-local notiLib = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/noti_library.lua'))
+local Library = DarkraiX:Window("Darkrai X","","",Enum.KeyCode.RightControl);
 
-print("Libraries loaded!")
--- Because of the way the library loads, settings are handled on the loadstring call
-local ui = uiLoader({
-    rounding = false, -- Whether certain features get rounded 
-    theme = 'blueberry', -- The theme. Available themes are: cherry, orange, lemon, lime, raspberry, blueberry, grape, watermelon
-    smoothDragging = false -- Smooth dragging
-})
+--[[
+DarkraiX:Window(
+1 = Name Of Your Ui Library (string)
+2 = Game Name (You Can Keep This Empty To Get The Current Game Name!) (string)
+3 = A Logo If You Have One! (string)
+4 = Ui Library Toggle (I'll Not Prefer Touching It) (function)
+);
+]]
 
-print("Debug-1: UI created!")
+Tab1 = Library:Tab("Main")
 
-ui.autoDisableToggles = true -- All toggles will automatically be disabled when the ui is destroyed (window is closed)
--- so you don't have to manually handle everything. This defaults to true!
+--[[
+Library:Tab(
+1 = Your Tab Name! (string)
+)
+]]
 
--- Make a window, which houses all the stuff for the gui
--- Technically multiple windows can be made, but there is no (and likely wont ever be) official support for them
--- since its a lot of work for such a minute use
-local window = ui.newWindow({
-    text = 'SkeetHub', -- Title of window 
-    resize = true, -- Ability to resize
-    size = Vector2.new(550, 376), -- Window size, accepts UDim2s and Vector2s
-    position = nil -- Custom position, defaults to roughly the bottom right corner
-})
+Tab1:Button("Button",function()
+    print("hi")
+end)
 
-print("Debug-2: Window created!")
+--[[
+Tab1:Button(
+1 = Button Name (string)
+2 = callback (function)
+]]
 
-local menu = window:addMenu({
-    text = 'Aimbot'
-})
-do 
-    -- Menus have sections which house all the controls    
-    local section = menu:addSection({
-        text = 'section 1', -- Title of section
-        side = 'auto', -- Side of the menu that the section is placed on. Defaults to 'auto', but can be 'left' or 'right'
-        showMinButton = true, -- Ability to minimize this section. Defaults to true
-    })
-    
-    do 
-        section:addLabel({
-            text = 'text' -- Self explanatory
-        })
-        
-        local toggle = section:addToggle({
-            text = 'toggle', 
-            state = false -- Starting state of the toggle - doesn't automatically call the callback
-        })
-        
-        toggle:bindToEvent('onToggle', function(newState) -- Call a function when toggled
-            ui.notify({
-                title = 'toggle',
-                message = 'Toggle was toggled to ' .. tostring(newState),
-                duration = 3
-            })
-        end)
-        
-        section:addButton({
-            text = 'button (small)', 
-            style = 'small' -- style of the button, can be 'large' or 'small'
-        }):bindToEvent('onClick', function() -- Call a function when clicked
-            ui.notify({
-                title = 'button',
-                message = 'The button got clicked!',
-                duration = 3
-            })
-        end)
-        
-        section:addButton({
-            text = 'button (large)', 
-            style = 'large' -- style of the button, can be 'large' or 'small'
-        }, function() -- you don't have to always use bindToEvent, just passing a callback normally works fine
-            ui.notify({
-                title = 'button',
-                message = 'The large button got clicked!',
-                duration = 3
-            })
-        end):setTooltip('this is a large button')
-        
-        local hotkey = section:addHotkey({
-            text = 'hotkey'
-        })
-        hotkey:setHotkey(Enum.KeyCode.G)
-        hotkey:setTooltip('This is a hotkey linked to the toggle!')
-        hotkey:linkToControl(toggle)
-    end
-    
-    local section = menu:addSection({
-        text = 'section 2',
-        side = 'right',
-        showMinButton = false
-    })
-    do 
-        section:addSlider({
-            text = 'slider',
-            min = 1,
-            max = 150,
-            step = 0.01,
-            val = 50
-        }, function(newValue) 
-            print(newValue)
-        end):setTooltip('Heres a slider!')
-        
-        section:addColorPicker({
-            text = 'color picker',
-            color = Color3.fromRGB(255, 0, 0)
-        }, function(newColor) 
-            print(newColor)
-        end)
-        
-        section:addTextbox({
-            text = 'textbox'
-        }):bindToEvent('onFocusLost', function(text) 
-            ui.notify({
-                title = 'textbox',
-                message = text,
-                duration = 4
-            })
-        end)
-    end
-    
-end
+Tab1:Toggle("Toggle",false,function(value)
+print(value)
+    end)
 
-local menu2 = window:addMenu({
-    text = 'Visuals'
-})
+--[[
+Tab1:Toggle(
+1 = name (string)
+2 = wether it should be true already or false (bool)
+3 = callback (function)
+)
+]]
 
-local menu3 = window:addMenu({
-    text = 'Misc'
+Tab1:Slider("Slider",1,100,25,function(value)
+        print(value)
+    end)
 
-    do   
-        local section = menu3:addSection({
-            text = 'World',
-            side = 'auto',
-            showMinButton = true,
-        })
-        
-        do 
-            section:addLabel({
-                text = 'testlabel'
-            })
-            
-            local toggle = section:addToggle({
-                text = 'toggle', 
-                state = false -- Starting state of the toggle - doesn't automatically call the callback
-            })
-            
-            toggle:bindToEvent('onToggle', function(newState) -- Call a function when toggled
-                notiLib:Notification("NOTIFICATION","pepe is a monkey","GothamSemibold","Gotham",5)
-            end)
-            
-            section:addButton({
-                text = 'button (small)', 
-                style = 'small' -- style of the button, can be 'large' or 'small'
-            }):bindToEvent('onClick', function() -- Call a function when clicked
-                ui.notify({
-                    title = 'button',
-                    message = 'The button got clicked!',
-                    duration = 3
-                })
-            end)
-            
-            section:addButton({
-                text = 'button (large)', 
-                style = 'large' -- style of the button, can be 'large' or 'small'
-            }, function() -- you don't have to always use bindToEvent, just passing a callback normally works fine
-                ui.notify({
-                    title = 'button',
-                    message = 'The large button got clicked!',
-                    duration = 3
-                })
-            end):setTooltip('this is a large button')
-        end
-        
-        local section = menu:addSection({
-            text = 'section 2',
-            side = 'right',
-            showMinButton = false
-        })
-        do 
-            section:addSlider({
-                text = 'slider',
-                min = 1,
-                max = 150,
-                step = 0.01,
-                val = 50
-            }, function(newValue) 
-                print(newValue)
-            end):setTooltip('Heres a slider!')
-            
-            section:addColorPicker({
-                text = 'color picker',
-                color = Color3.fromRGB(255, 0, 0)
-            }, function(newColor) 
-                print(newColor)
-            end)
-            
-            section:addTextbox({
-                text = 'textbox'
-            }):bindToEvent('onFocusLost', function(text) 
-                ui.notify({
-                    title = 'textbox',
-                    message = text,
-                    duration = 4
-                })
-            end)
-        end
-        
-    end
-})
+--[[
+Tab1:Slider(
+1 = Name (string)
+2 = Minimum (number)
+3 = Maximum (number)
+4 = Currently How Much (number)
+)
+]]
 
-local menu4 = window:addMenu({
-    text = 'Settings'
-})
+Tab1:Dropdown("Dropdown",{"yo","sus","pro"},function(value)
+            print(value)
+end)
+
+--[[
+Tab1:Dropdown(
+1 = Name (string)
+2 = Options (table)
+)
+]]
+
+Tab1:Textbox("Textbox","",true,function(value)
+print(value)
+end)
+
+--[[
+Tab1:Textbox(
+1 = Name (string)
+2 = Current Text (string)
+3 = State (bool)
+4 = callback (function)
+)
+]]
+
+
+Tab1:Seperator("Seperator")
+
+--[[
+Tab1:Seperator(
+1 = Name (string)
+)
+--]]
+Tab1:Line()
