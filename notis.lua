@@ -1,4 +1,4 @@
-local notif = loadstring(game:HttpGet("https://raw.githubusercontent.com/insanedude59/notiflib/main/main"))()
+local notif = loadstring(game:HttpGet("https://github.com/RedactedRiker/SkeetHub/blob/main/noti_library.lua"))()
 
 
 notif:Notification(

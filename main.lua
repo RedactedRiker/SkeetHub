@@ -1,5 +1,6 @@
 -- Snag the ui loader function thingy (loadstring the link, but dont call it)
 local uiLoader = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/library.lua'))
+local notiLib = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/noti_library.lua'))
 -- Because of the way the library loads, settings are handled on the loadstring call
 local ui = uiLoader({
     rounding = false, -- Whether certain features get rounded 
@@ -14,14 +15,14 @@ ui.autoDisableToggles = true -- All toggles will automatically be disabled when 
 -- Technically multiple windows can be made, but there is no (and likely wont ever be) official support for them
 -- since its a lot of work for such a minute use
 local window = ui.newWindow({
-    text = 'Dollarware demo', -- Title of window 
+    text = 'SkeetHub', -- Title of window 
     resize = true, -- Ability to resize
     size = Vector2.new(550, 376), -- Window size, accepts UDim2s and Vector2s
     position = nil -- Custom position, defaults to roughly the bottom right corner
 })
 
 local menu = window:addMenu({
-    text = 'menu 1' -- Title of menu
+    text = 'Aimbot'
 })
 do 
     -- Menus have sections which house all the controls    
@@ -115,6 +116,94 @@ do
     
 end
 
-window:addMenu({
-    text = 'menu 2'
+local menu2 = window:addMenu({
+    text = 'Visuals'
+})
+
+local menu3 = window:addMenu({
+    text = 'Misc'
+
+    do   
+        local section = menu3:addSection({
+            text = 'World',
+            side = 'auto',
+            showMinButton = true,
+        })
+        
+        do 
+            section:addLabel({
+                text = 'testlabel'
+            })
+            
+            local toggle = section:addToggle({
+                text = 'toggle', 
+                state = false -- Starting state of the toggle - doesn't automatically call the callback
+            })
+            
+            toggle:bindToEvent('onToggle', function(newState) -- Call a function when toggled
+                notiLib:Notification("NOTIFICATION","pepe is a monkey","GothamSemibold","Gotham",5)
+            end)
+            
+            section:addButton({
+                text = 'button (small)', 
+                style = 'small' -- style of the button, can be 'large' or 'small'
+            }):bindToEvent('onClick', function() -- Call a function when clicked
+                ui.notify({
+                    title = 'button',
+                    message = 'The button got clicked!',
+                    duration = 3
+                })
+            end)
+            
+            section:addButton({
+                text = 'button (large)', 
+                style = 'large' -- style of the button, can be 'large' or 'small'
+            }, function() -- you don't have to always use bindToEvent, just passing a callback normally works fine
+                ui.notify({
+                    title = 'button',
+                    message = 'The large button got clicked!',
+                    duration = 3
+                })
+            end):setTooltip('this is a large button')
+        end
+        
+        local section = menu:addSection({
+            text = 'section 2',
+            side = 'right',
+            showMinButton = false
+        })
+        do 
+            section:addSlider({
+                text = 'slider',
+                min = 1,
+                max = 150,
+                step = 0.01,
+                val = 50
+            }, function(newValue) 
+                print(newValue)
+            end):setTooltip('Heres a slider!')
+            
+            section:addColorPicker({
+                text = 'color picker',
+                color = Color3.fromRGB(255, 0, 0)
+            }, function(newColor) 
+                print(newColor)
+            end)
+            
+            section:addTextbox({
+                text = 'textbox'
+            }):bindToEvent('onFocusLost', function(text) 
+                ui.notify({
+                    title = 'textbox',
+                    message = text,
+                    duration = 4
+                })
+            end)
+        end
+        
+    end
+})
+
+local menu4 = window:addMenu({
+    text = 'Settings'
 })
