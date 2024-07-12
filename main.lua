@@ -1,5 +1,5 @@
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/oShyyyyy/Plaguecheat.cc-Roblox-Ui-library/main/Source.lua", true))()
-
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RedactedRiker/SkeetHub/main/library.lua?token=GHSAT0AAAAAACUPKRS42Q7ELN2CGJFTO62OZUQ3QXA", true))()
+local notif = loadstring(game:HttpGet("https://github.com/RedactedRiker/SkeetHub/blob/main/noti_library.lua"))()
 
 local Aimbot = library:AddWindow('Aimbot')
 local Visuals = library:AddWindow('Visuals')
@@ -57,6 +57,7 @@ e:AddColorPallete('Testing Color Pallete', Color3.fromRGB(89, 125, 255),function
   end)
 -- Will print the RGB that u choosed
 
+--[[
 e:AddTextBox('No filter',nil,false,5,function(a) print(a) end)
 -- A textbox with no filter mmeans u can do anything in it.
 
@@ -71,17 +72,12 @@ e:AddTextBox('Only nums+chars',nil,false,3,function(a) print(a) end)
 
 e:AddTextBox('Only Chars',nil,false,4,function(a) print(a) end)
 -- only text 
+]]--
 
 e:AddSeparateBar()
 -- To add a little bar to separate
 
 e:AddDropdown('Testing Dropdown',{'opt1','opt2','opt3'},'opt2',function(a) print(a) end)
-
--- A dropdown to choose options, 
--- The option are in these ( {'opt1','opt2','opt3'} ) 
--- And the option choosen by default is just after it ('opt2')
-
-
 
 -- Watermark stuff
 te:UpdateValue(true)
@@ -96,7 +92,7 @@ spawn(function()
         else
             t = 'FPS: '..fps..'| MS: '..ms
         end
-        watermark:ChangeText('i love femboy bro pls I NEED MONEY TO MAKE MY NEW UI TO GET SCRITP PELASE IGV E MOENY GUYS '..t)
+        watermark:ChangeText('GAY GUYS'..t)
     end
 end)
 

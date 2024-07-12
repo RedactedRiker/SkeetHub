@@ -3,90 +3,188 @@
 -- loadstring(game:HttpGet("https://raw.githubusercontent.com/Turtle-Brand/Turtle-Spy/main/source.lua", true))()
 -- wait()
 -- loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-
-local isInjected = true
+-- // Libs
+local ESPLib = loadstring(game:HttpGet(
+                              "https://raw.githubusercontent.com/Blissful4992/ESPs/main/UniversalSkeleton.lua"))()
 
 local UserInputService = game:GetService("UserInputService")
+local dronesPath = game.Workspace.SE_Workspace.Drones
 
+local dronesESP = {}
+local Skeletons = {}
+local isInjected = true
 local unInjectKey = Enum.KeyCode.Delete
-local destroyAllWalls = Enum.KeyCode.PageUp
 
 local box = Drawing.new("Square")
 box.Position = Vector2.new(50, 50)
 box.Size = Vector2.new(100, 100)
-box.Color = Color3.new(1, 0, 0)
+box.Color = Color3.new(1, 1, 0)
 box.Filled = true
 
-local currentTime = os.time()
-local formattedTime = os.date("%I:%M %p", currentTime)
+local breachFolder = game.Workspace:FindFirstChild("SE_Workspace") and
+                         game.Workspace.SE_Workspace:FindFirstChild("Breach")
+local baraFolder = game.Workspace:FindFirstChild("SE_Workspace") and
+                       game.Workspace.SE_Workspace:FindFirstChild("Doors")
 
-print("Injecting... (" .. formattedTime .. ")")
-
-function getCurrentMap()
-    return game.Workspace:FindFirstChild("House") or 
-           game.Workspace:FindFirstChild("Fortress") or 
-           game.Workspace:FindFirstChild("Amazon") or 
-           game.Workspace:FindFirstChild("Chalet") or 
-           game.Workspace:FindFirstChild("Mansion") or 
-           game.Workspace:FindFirstChild("Office") or 
-           game.Workspace:FindFirstChild("Safehouse")
+if not baraFolder then
+    warn("Barricade folder not found.")
+    isInjected = false
+    box:Remove()
+    return
 end
 
-function RemoveAllWalls(currentMapPath)
-    local WallsFolder
-    local currentMapName = currentMapPath.Name
-
-    if currentMapName == "Fortress" then
-        WallsFolder = currentMapPath:FindFirstChild("Breach")
-    elseif currentMapName == "House" or currentMapName == "Mansion" or currentMapName == "Chalet" then
-        WallsFolder = game.Workspace:FindFirstChild("SE_Workspace"):FindFirstChild("Breach")
-    end
-
-    if WallsFolder then
-        WallsFolder:Destroy()
-        print("Removed walls in " .. currentMapName)
-    else
-        print("No walls folder found in " .. currentMapName)
-    end
+if not breachFolder then
+    warn("Breach folder not found.")
+    isInjected = false
+    box:Remove()
+    return
 end
 
-function RemoveAllBarricades(currentMapPath)
-    local BarricadesFolder
-    local currentMapName = currentMapPath.Name
+function DetectOperators()
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        local playerStats = player:FindFirstChild("playerStats")
+        if not playerStats then
+            playerStats = Instance.new("Folder")
+            playerStats.Name = "PlayerStats"
+            playerStats.Parent = player
+        end
 
-    if currentMapName == "Fortress" then
-        BarricadesFolder = currentMapPath:FindFirstChild("Doors")
-    elseif currentMapName == "House" or currentMapName == "Mansion" or currentMapName == "Chalet" then
-        BarricadesFolder = game.Workspace:FindFirstChild("SE_Workspace"):FindFirstChild("Doors")
-    end
-
-    if BarricadesFolder then
-        BarricadesFolder:Destroy()
-        print("Removed barricades in " .. currentMapName)
-    else
-        print("No barricades folder found in " .. currentMapName)
-    end
-end
-
-while isInjected do
-    if UserInputService:IsKeyDown(unInjectKey) then
-        local currentTime = os.time()
-        local formattedTime = os.date("%I:%M %p", currentTime) 
-
-        print("Uninjecting (" .. formattedTime .. ")")
-        isInjected = false
-        box:Remove()
-    end
-
-    if UserInputService:IsKeyDown(destroyAllWalls) then
-        local currentMap = getCurrentMap() 
-        if currentMap then
-            print("Found map: " .. currentMap.Name)
-            RemoveAllWalls(currentMap)
-            RemoveAllBarricades(currentMap) 
+        local scanValue = playerStats:FindFirstChild("Scan")
+        if scanValue then
+            scanValue.Value = true
         else
-            print("No map found.")
+            scanValue = Instance.new("BoolValue")
+            scanValue.Name = "Scan"
+            scanValue.Value = true
+            scanValue.Parent = playerStats
         end
     end
-    task.wait()
 end
+
+function modifyWallParts(opacity)
+    for _, descendant in ipairs(breachFolder:GetDescendants()) do
+        if descendant:IsA("Model") and descendant.Name ~= "Reinforced" then
+
+            -- Disable Reinforcements
+            if descendant.Parent:GetDescendants().Fortified == true then
+                descendant.Parent:GetDescendants().Fortified = false
+            end
+
+            for _, destroyable in ipairs(descendant:GetChildren()) do
+                if destroyable:IsA("Model") then
+                    for _, charge in ipairs(destroyable:GetChildren()) do
+                        charge.CanCollide = false
+                        charge.CanQuery = true
+                        charge.Transparency = opacity
+                    end
+                end
+            end
+        else
+            if descendant:IsA("Model") and descendant.Name == "Reinforced" then
+                local reinforcePart =
+                    descendant:FindFirstChild("ReinforcedWall")
+                reinforcePart.CanQuery = false
+                reinforcePart.CanCollide = false
+                reinforcePart.Transparency = 1
+            end
+        end
+    end
+end
+
+function teleportToBomb()
+    local path = game.Workspace.Objective:GetDescendants("Bomb_A", "Bomb_B")
+end
+
+function modifyBarricades(opacity)
+    for _, descendant in ipairs(baraFolder:GetDescendants()) do
+        for _, descendant in ipairs(descendant:GetDescendants()) do
+            if descendant:IsA("Part") then
+                for _, descendant in ipairs(descendant:GetDescendants()) do
+                    if descendant:IsA("Part") then
+                        descendant.CanCollide = false
+                        descendant.CanQuery = true
+                        descendant.Transparency = opacity
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- // ESP
+function createSkeletons()
+    for _, Player in ipairs(game.Players:GetPlayers()) do
+        if Player ~= game.Players.LocalPlayer then
+            local skeleton = ESPLib:NewSkeleton(Player, true)
+            table.insert(Skeletons, skeleton)
+        end
+    end
+
+    game.Players.PlayerAdded:Connect(function(Player)
+        if Player ~= game.Players.LocalPlayer then
+            local skeleton = ESPLib:NewSkeleton(Player, true)
+            table.insert(Skeletons, skeleton)
+        end
+    end)
+end
+function removeAllSkeletons()
+    for _, skeleton in ipairs(Skeletons) do skeleton:Remove() end
+    Skeletons = {}
+end
+
+function createDroneESP()
+    local droneHighlight = Instance.new("Highlight")
+    if not dronesPath then
+        warn("Drones folder not found.")
+        return
+    end
+
+    for i, v in pairs(dronesPath) do
+        if v:IsA(Model) and v.Name == "Drone" then 
+            droneHighlight.Parent = v.Drone 
+        end
+    end
+end
+
+function removeAllDroneESP()
+    for _, billboardGui in ipairs(dronesESP) do
+        if billboardGui and billboardGui.Parent then
+            billboardGui:Destroy()
+        end
+    end
+    dronesESP = {}
+end
+
+-- // Core
+function hackLoop()
+    while isInjected do
+        modifyWallParts(0.7)
+        modifyBarricades(0.7)
+        createDroneESP()
+        DetectOperators()
+        task.wait(1)
+    end
+end
+
+function coreLoop()
+    while isInjected do
+        if UserInputService:IsKeyDown(unInjectKey) then
+            box:Destroy()
+            isInjected = false
+            removeAllSkeletons()
+        end
+        task.wait()
+    end
+end
+
+function Init()
+    createSkeletons()
+
+    local wrap1 = coroutine.wrap(hackLoop)
+    local wrap2 = coroutine.wrap(coreLoop)
+
+    wrap1()
+    wrap2()
+end
+
+if isInjected then Init() end
