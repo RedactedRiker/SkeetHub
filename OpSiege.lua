@@ -38,20 +38,34 @@ function RemoveAllWalls(currentMapPath)
 
     if currentMapName == "Fortress" then
         WallsFolder = currentMapPath:FindFirstChild("Breach")
+    elseif currentMapName == "House" or currentMapName == "Mansion" or currentMapName == "Chalet" then
+        WallsFolder = game.Workspace:FindFirstChild("SE_Workspace"):FindFirstChild("Breach")
     end
-
-    if currentMapName == "House" then
-        WallsFolder = currentMapPath:FindFirstChild("SE_Workspace"):FindFirstChild("Breach")
-    end
-
 
     if WallsFolder then
         WallsFolder:Destroy()
+        print("Removed walls in " .. currentMapName)
+    else
+        print("No walls folder found in " .. currentMapName)
     end
 end
 
-function RemoveAllBarricades(currentMap)
+function RemoveAllBarricades(currentMapPath)
+    local BarricadesFolder
+    local currentMapName = currentMapPath.Name
 
+    if currentMapName == "Fortress" then
+        BarricadesFolder = currentMapPath:FindFirstChild("Doors")
+    elseif currentMapName == "House" or currentMapName == "Mansion" or currentMapName == "Chalet" then
+        BarricadesFolder = game.Workspace:FindFirstChild("SE_Workspace"):FindFirstChild("Doors")
+    end
+
+    if BarricadesFolder then
+        BarricadesFolder:Destroy()
+        print("Removed barricades in " .. currentMapName)
+    else
+        print("No barricades folder found in " .. currentMapName)
+    end
 end
 
 while isInjected do
@@ -68,10 +82,8 @@ while isInjected do
         local currentMap = getCurrentMap() 
         if currentMap then
             print("Found map: " .. currentMap.Name)
-            if currentMap then
-                RemoveAllWalls(currentMap)
-                RemoveAllBarricades(currentMap) 
-            end
+            RemoveAllWalls(currentMap)
+            RemoveAllBarricades(currentMap) 
         else
             print("No map found.")
         end
