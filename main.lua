@@ -1,12 +1,18 @@
+print("Starting!!!")
+
 -- Snag the ui loader function thingy (loadstring the link, but dont call it)
 local uiLoader = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/library.lua'))
 local notiLib = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/noti_library.lua'))
+
+print("Libraries loaded!")
 -- Because of the way the library loads, settings are handled on the loadstring call
 local ui = uiLoader({
     rounding = false, -- Whether certain features get rounded 
-    theme = 'cherry', -- The theme. Available themes are: cherry, orange, lemon, lime, raspberry, blueberry, grape, watermelon
+    theme = 'blueberry', -- The theme. Available themes are: cherry, orange, lemon, lime, raspberry, blueberry, grape, watermelon
     smoothDragging = false -- Smooth dragging
 })
+
+print("Debug-1: UI created!")
 
 ui.autoDisableToggles = true -- All toggles will automatically be disabled when the ui is destroyed (window is closed)
 -- so you don't have to manually handle everything. This defaults to true!
@@ -20,6 +26,8 @@ local window = ui.newWindow({
     size = Vector2.new(550, 376), -- Window size, accepts UDim2s and Vector2s
     position = nil -- Custom position, defaults to roughly the bottom right corner
 })
+
+print("Debug-2: Window created!")
 
 local menu = window:addMenu({
     text = 'Aimbot'
