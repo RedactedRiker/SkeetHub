@@ -1,11 +1,3 @@
--- DOLLARWARE UI LIBRARY
--- MADE BY TOPIT
-
--- warning: comments are mostly retarded / useless
--- some shit makes no sense but idc enough to fix it
-
--- started on 5/18/22
-
 local inputService = game:GetService('UserInputService')
 local renderService = game:GetService('RunService')
 local tweenService = game:GetService('TweenService')
