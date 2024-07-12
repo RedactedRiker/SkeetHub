@@ -1,16 +1,9 @@
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
--- wait()
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/Turtle-Brand/Turtle-Spy/main/source.lua", true))()
--- wait()
--- loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
--- // Libs
-local ESPLib = loadstring(game:HttpGet(
-                              "https://raw.githubusercontent.com/Blissful4992/ESPs/main/UniversalSkeleton.lua"))()
+-- Load libraries
+local ESPLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Blissful4992/ESPs/main/UniversalSkeleton.lua"))()
+local aimbot = loadstring(game:HttpGet('https://github.com/RunDTM/Zeerox-Aimbot/raw/main/library.lua'))()
 
 local UserInputService = game:GetService("UserInputService")
-local dronesPath = game.Workspace.SE_Workspace.Drones
 
-local dronesESP = {}
 local Skeletons = {}
 local isInjected = true
 local unInjectKey = Enum.KeyCode.Delete
@@ -40,6 +33,7 @@ if not breachFolder then
     return
 end
 
+-- Detect operators
 function DetectOperators()
     for _, player in ipairs(game.Players:GetPlayers()) do
         local playerStats = player:FindFirstChild("playerStats")
@@ -61,6 +55,7 @@ function DetectOperators()
     end
 end
 
+-- Modify wall parts
 function modifyWallParts(opacity)
     for _, descendant in ipairs(breachFolder:GetDescendants()) do
         if descendant:IsA("Model") and descendant.Name ~= "Reinforced" then
@@ -79,39 +74,41 @@ function modifyWallParts(opacity)
                     end
                 end
             end
-        else
-            if descendant:IsA("Model") and descendant.Name == "Reinforced" then
-                local reinforcePart =
-                    descendant:FindFirstChild("ReinforcedWall")
+        elseif descendant:IsA("Model") and descendant.Name == "Reinforced" then
+            local reinforcePart =
+                descendant:FindFirstChild("ReinforcedWall")
+            if reinforcePart then
                 reinforcePart.CanQuery = false
                 reinforcePart.CanCollide = false
                 reinforcePart.Transparency = 1
-            end
-        end
-    end
-end
 
-function teleportToBomb()
-    local path = game.Workspace.Objective:GetDescendants("Bomb_A", "Bomb_B")
-end
-
-function modifyBarricades(opacity)
-    for _, descendant in ipairs(baraFolder:GetDescendants()) do
-        for _, descendant in ipairs(descendant:GetDescendants()) do
-            if descendant:IsA("Part") then
-                for _, descendant in ipairs(descendant:GetDescendants()) do
-                    if descendant:IsA("Part") then
-                        descendant.CanCollide = false
-                        descendant.CanQuery = true
-                        descendant.Transparency = opacity
-                    end
+                if reinforcePart.CanCollide == true then
+                    descendant.Color3 = Color3.fromRGB(0, 4, 255)
                 end
             end
         end
     end
 end
 
--- // ESP
+-- Teleport to bomb (This function is incomplete and just a placeholder)
+function teleportToBomb()
+    local path = game.Workspace.Objective:GetDescendants("Bomb_A", "Bomb_B")
+end
+
+-- Modify barricades
+function modifyBarricades(opacity)
+    for _, descendant in ipairs(baraFolder:GetDescendants()) do
+        for _, subDescendant in ipairs(descendant:GetDescendants()) do
+            if subDescendant:IsA("Part") then
+                subDescendant.CanCollide = false
+                subDescendant.CanQuery = true
+                subDescendant.Transparency = opacity
+            end
+        end
+    end
+end
+
+-- Create skeletons for all players
 function createSkeletons()
     for _, Player in ipairs(game.Players:GetPlayers()) do
         if Player ~= game.Players.LocalPlayer then
@@ -127,56 +124,64 @@ function createSkeletons()
         end
     end)
 end
+
+-- Remove all skeletons
 function removeAllSkeletons()
-    for _, skeleton in ipairs(Skeletons) do skeleton:Remove() end
+    for _, skeleton in ipairs(Skeletons) do
+        skeleton:Remove()
+    end
     Skeletons = {}
 end
 
-function createDroneESP()
-    local droneHighlight = Instance.new("Highlight")
-    if not dronesPath then
-        warn("Drones folder not found.")
-        return
-    end
+-- Set up aimbot
+function AimBot()
+    aimbot.Enabled = true -- aimbot enabled
+    aimbot.Key = Enum.UserInputType.MouseButton2 -- aimbot key
+    aimbot.Smoothing = 20 -- aimbot smoothness
+    aimbot.Offset = {0, 0} -- aimbot offset
 
-    for i, v in pairs(dronesPath) do
-        if v:IsA(Model) and v.Name == "Drone" then 
-            droneHighlight.Parent = v.Drone 
-        end
-    end
+    aimbot.TeamCheck = true -- team checking enabled
+    aimbot.AliveCheck = true -- player alive check
+
+    aimbot.Players = true -- aimbot for default player characters enabled
+    aimbot.PlayerPart = 'Head' -- part of default player character to aim
+    aimbot.FriendlyPlayers = {'name1', 'name2'} -- whitelisted players
+
+    aimbot.FOV = 200 -- aimbot FOV
+    aimbot.FOVCircleColor = Color3.fromRGB(255, 255, 255) -- FOV circle color
+    aimbot.ShowFOV = true -- FOV circle visible
+
+    aimbot.CustomParts = {Instance.new('Part', workspace)} -- custom parts for aimbot
 end
 
-function removeAllDroneESP()
-    for _, billboardGui in ipairs(dronesESP) do
-        if billboardGui and billboardGui.Parent then
-            billboardGui:Destroy()
-        end
-    end
-    dronesESP = {}
-end
+-- Initialize aimbot
+AimBot()
 
--- // Core
+-- Main hack loop
 function hackLoop()
     while isInjected do
         modifyWallParts(0.7)
         modifyBarricades(0.7)
-        createDroneESP()
         DetectOperators()
         task.wait(1)
     end
 end
 
+-- Core loop for handling user input and cleanup
 function coreLoop()
     while isInjected do
         if UserInputService:IsKeyDown(unInjectKey) then
             box:Destroy()
             isInjected = false
             removeAllSkeletons()
+            aimbot.Enabled = false -- Disable aimbot
+            aimbot:Destroy() -- Clean up aimbot resources
         end
         task.wait()
     end
 end
 
+-- Initialize the script
 function Init()
     createSkeletons()
 
