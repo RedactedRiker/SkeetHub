@@ -7,6 +7,7 @@ local UserInputService = game:GetService("UserInputService")
 local Skeletons = {}
 local isInjected = true
 local unInjectKey = Enum.KeyCode.Delete
+local expandHitbox = true
 
 local box = Drawing.new("Square")
 box.Position = Vector2.new(50, 50)
@@ -75,8 +76,7 @@ function modifyWallParts(opacity)
                 end
             end
         elseif descendant:IsA("Model") and descendant.Name == "Reinforced" then
-            local reinforcePart =
-                descendant:FindFirstChild("ReinforcedWall")
+            local reinforcePart = descendant:FindFirstChild("ReinforcedWall")
             if reinforcePart then
                 reinforcePart.CanQuery = false
                 reinforcePart.CanCollide = false
@@ -90,10 +90,35 @@ function modifyWallParts(opacity)
     end
 end
 
--- Teleport to bomb (This function is incomplete and just a placeholder)
-function teleportToBomb()
-    local path = game.Workspace.Objective:GetDescendants("Bomb_A", "Bomb_B")
+-- Tp to bomb ( i mightve cooked with this idk ¯\_(ツ)_/¯ )
+function tpToBomb()
+    function tpToBomb(bombName)
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+
+        local bomb = game.Workspace.Objective:FindFirstChild(bombName)
+        if bomb then
+            character:MoveTo(bomb.Position + Vector3.fromAxis(0, 5, 0))
+        else
+            warn(bombName .. " not found in Workspace.Objective!")
+        end
+    end
+    tpToBomb("Bomb_A")
+    tpToBomb("Bomb_B")
 end
+
+
+--[[
+
+██████░░░██████▄░▄█████░▄█████░██████▄░░░▄█████░▄█████▄░██████░██████░▄█████░▄█████
+░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░██░░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░░░██░░░░
+░░██░░░░░██░░░██░█████░░█████░░██░░░██░░░██░░░░░██░░░██░█████░░█████░░█████░░█████░
+░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░██░░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░░░██░░░░
+██████░░░██░░░██░▀█████░▀█████░██████▀░░░▀█████░▀█████▀░██░░░░░██░░░░░▀█████░▀█████
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+
+]]--
 
 -- Modify barricades
 function modifyBarricades(opacity)
@@ -127,12 +152,11 @@ end
 
 -- Remove all skeletons
 function removeAllSkeletons()
-    for _, skeleton in ipairs(Skeletons) do
-        skeleton:Remove()
-    end
+    for _, skeleton in ipairs(Skeletons) do skeleton:Remove() end
     Skeletons = {}
 end
 
+--[[
 -- Set up aimbot
 function AimBot()
     aimbot.Enabled = true -- aimbot enabled
@@ -156,6 +180,36 @@ end
 
 -- Initialize aimbot
 AimBot()
+]]--
+
+
+function expandHitbox()
+    if expandHitbox == true then -- For adding this to a button pretty sure the logic would be ( Btn.MouseButton1Click:Connect(function(expandHitbox = true ) end ) i think
+        while task.wait(1) do
+            for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+                if v.Name ~= game:GetService("Players").LocalPlayer.Name then
+                    v.Character.Head.CanCollide = false
+                    v.Character.Head.Size = Vector3.new(6, 6, 6)
+                    v.Character.Head.Transparency = 0.5
+                end
+            end
+        end
+    else
+        task.wait()
+    end
+end
+
+--[[
+
+██████░░░██████▄░▄█████░▄█████░██████▄░░░▄█████░▄█████▄░██████░██████░▄█████░▄█████
+░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░██░░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░░░██░░░░
+░░██░░░░░██░░░██░█████░░█████░░██░░░██░░░██░░░░░██░░░██░█████░░█████░░█████░░█████░
+░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░██░░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░░░██░░░░
+██████░░░██░░░██░▀█████░▀█████░██████▀░░░▀█████░▀█████▀░██░░░░░██░░░░░▀█████░▀█████
+░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+
+]]--
 
 -- Main hack loop
 function hackLoop()

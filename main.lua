@@ -19,7 +19,7 @@ Tab1:Label("TEXT")
   TEXT: STRING
 ]]
 Tab1:Textbox("Name", "Placeholder", function(txt)
-    -- Code here
+    -- Code here0
 end)
 
 --[[
