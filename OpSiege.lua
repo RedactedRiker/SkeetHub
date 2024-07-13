@@ -5,28 +5,43 @@ local aimbot = loadstring(game:HttpGet(
                               'https://github.com/RunDTM/Zeerox-Aimbot/raw/main/library.lua'))()
 
 local UserInputService = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
 
 local Skeletons = {}
 local isInjected = true
 local unInjectKey = Enum.KeyCode.Delete
-local expandHitbox = true
 
+
+--// Design
 local box = Drawing.new("Square")
 box.Position = Vector2.new(50, 50)
 box.Size = Vector2.new(100, 100)
 box.Color = Color3.new(1, 1, 0)
 box.Filled = true
 
---[[
 local buttonBox = Instance.new("ScreenGui")
-local button = Instance.new("TextButton")
-buttonBox.Parent = game:GetService("Players").LocalPlayer
-button.Parent = buttonBox
-button.Position = UDim2.new(0, 10, 0, 50)
-button.Color3 = Color3.fromRGB(30, 30, 30)
-button.TextColor3 = Color3.fromRGB(255, 255, 255)
-button.Text = "Tp to bomb"
-]]
+local tpButton = Instance.new("TextButton")
+local hitboxButton = Instance.new("TextButton")
+
+buttonBox.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+
+tpButton.Parent = buttonBox
+tpButton.Position = UDim2.new(0, 10, 0, 50)
+tpButton.Size = UDim2.new(0, 75, 0, 25)
+tpButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+tpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+tpButton.Text = "Tp to bomb"
+tpButton.TextScaled = true
+
+hitboxButton.Parent = buttonBox
+hitboxButton.Position = UDim2.new(0, 10, 0, 75)
+hitboxButton.Size = UDim2.new(0, 75, 0, 25)
+hitboxButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+hitboxButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+hitboxButton.Text = "Expand Hitboxes"
+hitboxButton.TextScaled = true
+
 
 local breachFolder = game.Workspace:FindFirstChild("SE_Workspace") and
                          game.Workspace.SE_Workspace:FindFirstChild("Breach")
@@ -104,9 +119,6 @@ end
 -- Tp to bomb ( i mightve cooked with this idk ¯\_(ツ)_/¯ )
 function tpToBomb()
     function tpToBomb(bombName)
-        local player = game.Players.LocalPlayer
-        local character = player.Character or player.CharacterAdded:Wait()
-
         local bomb = game.Workspace.Objective:FindFirstChild(bombName)
         if bomb then
             character:MoveTo(bomb.Position + Vector3.fromAxis(0, 5, 0))
@@ -116,12 +128,15 @@ function tpToBomb()
     end
 end
 
---[[
-button.MouseButton1Click:Connect(function()
+--// Buttons
+tpButton.MouseButton1Click:Connect(function()
     tpToBomb("Bomb_A")
-    button:Destroy() -- only for now
+    tpButton:Destroy() -- only for now
 end)
-]]
+
+hitboxButton.MouseButton1Click:Connect(function()
+    expandHitbox(character)
+end
 
 -- Modify barricades
 function modifyBarricades(opacity)
@@ -185,19 +200,13 @@ end
 AimBot()
 ]] --
 
-function expandHitbox()
-    if expandHitbox == true then -- For adding this to a button pretty sure the logic would be ( Btn.MouseButton1Click:Connect(function(expandHitbox = true ) end ) i think
-        while task.wait(1) do
-            for _, v in pairs(game:GetService("Players"):GetPlayers()) do
-                if v.Name ~= game:GetService("Players").LocalPlayer.Name then
-                    v.Character.Head.CanCollide = false
-                    v.Character.Head.Size = Vector3.new(15, 15, 15)
-                    v.Character.Head.Transparency = 0.5
-                end
-            end
+local function expandHitbox(character)
+    for _, part in ipairs(character:GetChildren()) do
+        if part.Name == "HumanoidRootPart" then
+            part.Size = part.Size * 2
+            part.Massless = true
+            part.Transparency = 0.5
         end
-    else
-        task.wait()
     end
 end
 
