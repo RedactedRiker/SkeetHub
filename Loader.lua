@@ -3,7 +3,7 @@ local gameName
 local scriptLink
 
 local ScriptLinks = {
-    OperationSiege = 'https://github.com/RedactedRiker/SkeetHub/blob/main/OpSiege.lua'
+    OperationSiege = 'https://raw.githubusercontent.com/RedactedRiker/SkeetHub/main/OpSiege.lua',
 }
 
 local GameIds = {
@@ -25,7 +25,8 @@ end
 
 function getGameScript()
     if (gameID == nil) then
-        warn("No Game Found")
+        -- warn("No Game Found")
+        game.Players.LocalPlayer:Kick("This game is not supported!")
         return
     end
 
@@ -48,17 +49,17 @@ function getGameScript()
         scriptLink = ScriptLinks[foundGameName]
         if scriptLink then
             print("Script Link: " .. scriptLink)
-            loadScript(scriptLink)
+            loadScript()
         else
-            print("No Script Link Found for " .. foundGameName)
+            warn("No Script Link Found for " .. foundGameName)
         end
     else
-        print("Game ID not found in GameIds")
+        warn("Game ID not found in GameIds")
     end
 end
 
-function loadScript(linkdip)
-    loadstring(game:HttpGet(linkdip))()
+function loadScript()
+    loadstring(game:HttpGet(scriptLink))()
 end
 
 getGameInfo()

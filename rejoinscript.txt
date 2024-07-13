@@ -1,0 +1,18 @@
+function rejoin()
+    loadstring(game:HttpGet("https://pastebin.com/raw/1gtVMUz3"))()
+end
+
+local BBOX = Instance.new("ScreenGui")
+local BBTN = Instance.new("TextButton")
+BBOX.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+
+BBTN.Parent = BBOX
+BBTN.Position = UDim2.new(0, 10, 0, 100)
+BBTN.Size = UDim2.new(0, 100, 0, 50)
+BBTN.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+BBTN.TextColor3 = Color3.fromRGB(255, 255, 255)
+BBTN.Text = "Rejoin"
+
+BBTN.MouseButton1Click:Connect(function()
+    rejoin()
+end)

@@ -1,67 +1,107 @@
-local Library = loadstring(game:HttpGet("https://github.com/RedactedRiker/SkeetHub/blob/main/library.lua"))()
-local Window = Library:Create("SkeetHub", "v1.1")
-local menuKey = Enum.KeyCode.Insert
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
+Library.Theme = "Dark"
+local Flags = Library.Flags
 
-local UserInputService = game:GetService("UserInputService")
+local Window = Library:Window({
+   Text = "Baseplate"
+})
 
-local Tab1 = Window:Tab("Aimbot", true)
-local Tab2 = Window:Tab("Visuals", true)
-local Tab3 = Window:Tab("Misc", true)
-local Tab4 = Window:Tab("Settings", true)
---[[
-  NAME: STRING
-  VISIBILITY: BOOLEAN
-]]
-Tab1:Label("TEXT")
+local Tab = Window:Tab({
+   Text = "Aiming"
+})
 
---[[
-  TEXT: STRING
-]]
-Tab1:Textbox("Name", "Placeholder", function(txt)
-    -- Code here0
-end)
+local Tab2 = Window:Tab({
+   Text = "Visual"
+})
 
---[[
-  NAME: STRING
-  PLACEHOLDER: STRING
-]]
+local Tab3 = Window:Tab({
+   Text = "Visual2"
+})
 
-Tab1:Keybind("Keybind Name", Enum.KeyCode.RightShift, function()
-    -- Code here
-end)
+local Tab4 = Window:Tab({
+   Text = "Visua3"
+})
 
-Tab1:Dropdown("Dropdow Name", {"Option 1", "Option 2", "Option 3"},
-              function(current)
-    -- Code here
-end)
+local Section = Tab:Section({
+   Text = "Buttons"
+})
 
---[[
-  NAME: STRING
-  OPTIONS: STRING LIST
-]]
+local Section2 = Tab2:Section({
+   Text = "Buttons2"
+})
 
-Tab1:Toggle("Toggle Name", function(bool)
-    -- Code here
-end)
+local Section3 = Tab3:Section({
+   Text = "Buttons2"
+})
+local Section4 = Tab4:Section({
+   Text = "Buttons2"
+})
 
---[[
-  NAME: STRING
-]]
+Section:Button({
+   Text = "Kill All",
+   Callback = function()
+       warn("Killed All")
+   end
+})
 
-Tab1:Slider("Slider Name", 0, 100, function(value)
-    -- Code here
-end)
+Section2:Button({
+   Text = "Kick",
+   Callback = function()
+       warn("Kick.")
+   end
+})
 
---[[
-  NAME: STRING
-  MIN-VALUE: INT
-  MAX-VALUE: INT
-]]
+Section2:Keybind({
+   Text = "Press",
+   Default = Enum.KeyCode.Z,
+   Callback = function()
+       warn("Pressed.")
+   end
+})
 
--- // Extra
+Section2:Input({
+   Text = "Lil Input",
+   Callback = function(txt)
+       warn(txt)
+   end
+})
 
-UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-    if not gameProcessedEvent and input.KeyCode == menuKey then
-        Window.Visible = not Window.Visible
-    end
-end)
+Section:Button({
+   Text = "Kill",
+   Callback = function()
+       warn("Teleported")
+   end
+})
+
+local drop = Section:Dropdown({
+   Text = "Choose",
+   List = {"Idk", "Test"},
+   Callback = function(v)
+       warn(v)
+   end
+})
+
+Section:Slider({
+   Text = "Speed",
+   Default = 25,
+   Minimum = 0,
+   Maximum = 200
+})
+
+Section:Toggle({
+   Text = "Farm",
+   Callback = function(bool)
+       warn(bool)
+   end
+})
+
+Section:Button({
+   Text = "Refresh Dropdown",
+   Callback = function()
+       drop:Remove("Test")
+       wait(2)
+       drop:Add("123")
+   end
+})
+
+Tab:Select()

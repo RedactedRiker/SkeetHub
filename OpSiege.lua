@@ -11,53 +11,18 @@ local unInjectKey = Enum.KeyCode.Delete
 
 local showTeamESP = false
 
---// Design
-local box = Drawing.new("Square")
-box.Position = Vector2.new(50, 50)
-box.Size = Vector2.new(100, 100)
-box.Color = Color3.new(1, 1, 0)
-box.Filled = true
-box.ZIndex = 999
-
-local buttonBox = Instance.new("ScreenGui")
-local tpButton = Instance.new("TextButton")
-local hitboxButton = Instance.new("TextButton")
-
-buttonBox.Parent = player.PlayerGui
-
-tpButton.Parent = buttonBox
-tpButton.Position = UDim2.new(0, 10, 0, 150)
-tpButton.Size = UDim2.new(0, 75, 0, 25)
-tpButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-tpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton.Text = "Tp to bomb"
-tpButton.TextScaled = true
-tpButton.ZIndex = 999
-
-hitboxButton.Parent = buttonBox
-hitboxButton.Position = UDim2.new(0, 10, 0, 175)
-hitboxButton.Size = UDim2.new(0, 75, 0, 25)
-hitboxButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-hitboxButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-hitboxButton.Text = "Expand Hitboxes"
-hitboxButton.TextScaled = true
-hitboxButton.ZIndex = 999
-
-
 local breachFolder = game.Workspace:FindFirstChild("SE_Workspace") and game.Workspace.SE_Workspace:FindFirstChild("Breach")
 local baraFolder = game.Workspace:FindFirstChild("SE_Workspace") and game.Workspace.SE_Workspace:FindFirstChild("Doors")
 
 if not baraFolder then
     warn("Barricade folder not found.")
     isInjected = false
-    box:Remove()
     return
 end
 
 if not breachFolder then
     warn("Breach folder not found.")
     isInjected = false
-    box:Remove()
     return
 end
 
@@ -133,16 +98,6 @@ function tpToBomb()
     end
 end
 
---// Buttons
-tpButton.MouseButton1Click:Connect(function()
-    tpToBomb("Bomb_A")
-    tpButton:Destroy() -- only for now
-end)
-
-hitboxButton.MouseButton1Click:Connect(function()
-    expandHitbox(character)
-end)
-
 -- Modify barricades
 function modifyBarricades(opacity, CanCollide, CanQuery)
     for _, descendant in ipairs(baraFolder:GetDescendants()) do
@@ -201,10 +156,15 @@ function expandHitbox(character)
     end
 end
 
+local modyWalls = true
+
 -- Main hack loop
 function hackLoop()
+    createSkeletons()
     while isInjected do
-        modifyWallParts(0.7 , false, true) 
+        if modyWalls == true then
+            modifyWallParts(0.7 , false, true)  
+        end
         modifyBarricades(0.7, false, true)
         DetectOperators()
         task.wait(1)
@@ -216,19 +176,21 @@ function coreLoop()
     while isInjected do
         if UserInputService:IsKeyDown(unInjectKey) then
             isInjected = false
-            box:Destroy()
-            buttonBox:Destroy()
             removeAllSkeletons()
             modifyWallParts(0 , true, true) 
             modifyBarricades(0, true, true)
         end
+
+        if UserInputService:IsKeyDown(Enum.KeyCode.Insert) then
+            modyWalls = "hel"
+        end
+
         task.wait()
     end
 end
 
 -- Initialize the script
 function Init()
-    createSkeletons()
 
     local wrap1 = coroutine.wrap(hackLoop)
     local wrap2 = coroutine.wrap(coreLoop)
@@ -236,5 +198,3 @@ function Init()
     wrap1()
     wrap2()
 end
-
-if isInjected then Init() end

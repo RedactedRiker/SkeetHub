@@ -1,2 +1,0 @@
-https://github.com/Eazvy/UILibs/tree/main/ESP/Skeleton
-https://github.com/Eazvy/UILibs/tree/main/ESP/Seere
