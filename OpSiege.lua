@@ -85,7 +85,7 @@ function DetectOperators()
 end
 
 -- Modify wall parts
-function modifyWallParts(opacity)
+function modifyWallParts(opacity, CanCollide, CanQuery)
     for _, descendant in ipairs(breachFolder:GetDescendants()) do
         if descendant:IsA("Model") and descendant.Name ~= "Reinforced" then
 
@@ -97,8 +97,8 @@ function modifyWallParts(opacity)
             for _, destroyable in ipairs(descendant:GetChildren()) do
                 if destroyable:IsA("Model") then
                     for _, charge in ipairs(destroyable:GetChildren()) do
-                        charge.CanCollide = false
-                        charge.CanQuery = true
+                        charge.CanCollide = CanCollide
+                        charge.CanQuery = CanQuery
                         charge.Transparency = opacity
                     end
                 end
@@ -136,15 +136,15 @@ end)
 
 hitboxButton.MouseButton1Click:Connect(function()
     expandHitbox(character)
-end
+end)
 
 -- Modify barricades
-function modifyBarricades(opacity)
+function modifyBarricades(opacity, CanCollide, CanQuery)
     for _, descendant in ipairs(baraFolder:GetDescendants()) do
         for _, subDescendant in ipairs(descendant:GetDescendants()) do
             if subDescendant:IsA("Part") then
-                subDescendant.CanCollide = false
-                subDescendant.CanQuery = true
+                subDescendant.CanCollide = CanCollide
+                subDescendant.CanQuery = CanQuery
                 subDescendant.Transparency = opacity
             end
         end
@@ -200,7 +200,7 @@ end
 AimBot()
 ]] --
 
-local function expandHitbox(character)
+function expandHitbox(character)
     for _, part in ipairs(character:GetChildren()) do
         if part.Name == "HumanoidRootPart" then
             part.Size = part.Size * 2
@@ -213,8 +213,8 @@ end
 -- Main hack loop
 function hackLoop()
     while isInjected do
-        modifyWallParts(0.7)
-        modifyBarricades(0.7)
+        modifyWallParts(0.7 , false, true) 
+        modifyBarricades(0.7, false, true)
         DetectOperators()
         task.wait(1)
     end
@@ -227,8 +227,10 @@ function coreLoop()
             box:Destroy()
             isInjected = false
             removeAllSkeletons()
-            aimbot.Enabled = false -- Disable aimbot
-            aimbot:Destroy() -- Clean up aimbot resources
+            modifyWallParts(0 , true, true) 
+            modifyBarricades(0, true, true)
+            aimbot.Enabled = false 
+            aimbot:Destroy()
         end
         task.wait()
     end
