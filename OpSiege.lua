@@ -110,6 +110,14 @@ function modifyWallParts(opacity, CanCollide, CanQuery)
                 reinforcePart.CanCollide = false
                 reinforcePart.Transparency = .5
                 reinforcePart.Color = Color3.fromRGB(0, 4, 255)
+
+                for _, destroyable in ipairs(descendant:GetChildren()) do
+                    if destroyable:IsA("Model") then
+                        for _, charge in ipairs(destroyable:GetChildren()) do
+                            charge.Transparency = 1
+                        end
+                    end
+                end
             end
         end
     end
