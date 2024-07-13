@@ -110,7 +110,6 @@ function modifyWallParts(opacity, CanCollide, CanQuery)
                 reinforcePart.CanCollide = false
                 reinforcePart.Transparency = .5
                 reinforcePart.Color = Color3.fromRGB(0, 4, 255)
-                descendant.Transparency = 1
             end
         end
     end
