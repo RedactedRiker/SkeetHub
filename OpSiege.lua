@@ -44,10 +44,8 @@ hitboxButton.TextScaled = true
 hitboxButton.ZIndex = 999
 
 
-local breachFolder = game.Workspace:FindFirstChild("SE_Workspace") and
-                         game.Workspace.SE_Workspace:FindFirstChild("Breach")
-local baraFolder = game.Workspace:FindFirstChild("SE_Workspace") and
-                       game.Workspace.SE_Workspace:FindFirstChild("Doors")
+local breachFolder = game.Workspace:FindFirstChild("SE_Workspace") and game.Workspace.SE_Workspace:FindFirstChild("Breach")
+local baraFolder = game.Workspace:FindFirstChild("SE_Workspace") and game.Workspace.SE_Workspace:FindFirstChild("Doors")
 
 if not baraFolder then
     warn("Barricade folder not found.")
