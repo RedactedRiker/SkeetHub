@@ -1,5 +1,4 @@
-local Library = loadstring(game:HttpGet(
-                               "https://raw.githubusercontent.com/NeverJar/ImpactUI/main/ImpactUI.lua"))()
+local Library = loadstring(game:HttpGet("https://github.com/RedactedRiker/SkeetHub/blob/main/library.lua"))()
 local Window = Library:Create("SkeetHub", "v1.1")
 local menuKey = Enum.KeyCode.Insert
 
@@ -59,9 +58,7 @@ end)
   MAX-VALUE: INT
 ]]
 
-
-
---// Extra
+-- // Extra
 
 UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if not gameProcessedEvent and input.KeyCode == menuKey then

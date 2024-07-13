@@ -1,6 +1,8 @@
 -- Load libraries
-local ESPLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Blissful4992/ESPs/main/UniversalSkeleton.lua"))()
-local aimbot = loadstring(game:HttpGet('https://github.com/RunDTM/Zeerox-Aimbot/raw/main/library.lua'))()
+local ESPLib = loadstring(game:HttpGet(
+                              "https://raw.githubusercontent.com/Blissful4992/ESPs/main/UniversalSkeleton.lua"))()
+local aimbot = loadstring(game:HttpGet(
+                              'https://github.com/RunDTM/Zeerox-Aimbot/raw/main/library.lua'))()
 
 local UserInputService = game:GetService("UserInputService")
 
@@ -14,6 +16,17 @@ box.Position = Vector2.new(50, 50)
 box.Size = Vector2.new(100, 100)
 box.Color = Color3.new(1, 1, 0)
 box.Filled = true
+
+--[[
+local buttonBox = Instance.new("ScreenGui")
+local button = Instance.new("TextButton")
+buttonBox.Parent = game:GetService("Players").LocalPlayer
+button.Parent = buttonBox
+button.Position = UDim2.new(0, 10, 0, 50)
+button.Color3 = Color3.fromRGB(30, 30, 30)
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.Text = "Tp to bomb"
+]]
 
 local breachFolder = game.Workspace:FindFirstChild("SE_Workspace") and
                          game.Workspace.SE_Workspace:FindFirstChild("Breach")
@@ -80,11 +93,9 @@ function modifyWallParts(opacity)
             if reinforcePart then
                 reinforcePart.CanQuery = false
                 reinforcePart.CanCollide = false
-                reinforcePart.Transparency = 1
-
-                if reinforcePart.CanCollide == true then
-                    descendant.Color3 = Color3.fromRGB(0, 4, 255)
-                end
+                reinforcePart.Transparency = .5
+                reinforcePart.Color = Color3.fromRGB(0, 4, 255)
+                descendant.Transparency = 1
             end
         end
     end
@@ -103,22 +114,14 @@ function tpToBomb()
             warn(bombName .. " not found in Workspace.Objective!")
         end
     end
-    tpToBomb("Bomb_A")
-    tpToBomb("Bomb_B")
 end
 
-
 --[[
-
-██████░░░██████▄░▄█████░▄█████░██████▄░░░▄█████░▄█████▄░██████░██████░▄█████░▄█████
-░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░██░░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░░░██░░░░
-░░██░░░░░██░░░██░█████░░█████░░██░░░██░░░██░░░░░██░░░██░█████░░█████░░█████░░█████░
-░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░██░░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░░░██░░░░
-██████░░░██░░░██░▀█████░▀█████░██████▀░░░▀█████░▀█████▀░██░░░░░██░░░░░▀█████░▀█████
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-
-
-]]--
+button.MouseButton1Click:Connect(function()
+    tpToBomb("Bomb_A")
+    button:Destroy() -- only for now
+end)
+]]
 
 -- Modify barricades
 function modifyBarricades(opacity)
@@ -180,8 +183,7 @@ end
 
 -- Initialize aimbot
 AimBot()
-]]--
-
+]] --
 
 function expandHitbox()
     if expandHitbox == true then -- For adding this to a button pretty sure the logic would be ( Btn.MouseButton1Click:Connect(function(expandHitbox = true ) end ) i think
@@ -189,7 +191,7 @@ function expandHitbox()
             for _, v in pairs(game:GetService("Players"):GetPlayers()) do
                 if v.Name ~= game:GetService("Players").LocalPlayer.Name then
                     v.Character.Head.CanCollide = false
-                    v.Character.Head.Size = Vector3.new(6, 6, 6)
+                    v.Character.Head.Size = Vector3.new(15, 15, 15)
                     v.Character.Head.Transparency = 0.5
                 end
             end
@@ -198,18 +200,6 @@ function expandHitbox()
         task.wait()
     end
 end
-
---[[
-
-██████░░░██████▄░▄█████░▄█████░██████▄░░░▄█████░▄█████▄░██████░██████░▄█████░▄█████
-░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░██░░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░░░██░░░░
-░░██░░░░░██░░░██░█████░░█████░░██░░░██░░░██░░░░░██░░░██░█████░░█████░░█████░░█████░
-░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░██░░░██░░░░░██░░░██░██░░░░░██░░░░░██░░░░░██░░░░
-██████░░░██░░░██░▀█████░▀█████░██████▀░░░▀█████░▀█████▀░██░░░░░██░░░░░▀█████░▀█████
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-
-
-]]--
 
 -- Main hack loop
 function hackLoop()
