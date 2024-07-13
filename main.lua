@@ -1,10 +1,11 @@
-local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
+local Library = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/library.lua'))()
 Library.Theme = "Dark"
 local Flags = Library.Flags
 
 local Window = Library:Window({
-   Text = "Baseplate"
+   Text = "SkeetHub"
 })
+
 
 local Tab = Window:Tab({
    Text = "Aiming"
@@ -15,11 +16,11 @@ local Tab2 = Window:Tab({
 })
 
 local Tab3 = Window:Tab({
-   Text = "Visual2"
+   Text = "Misc"
 })
 
 local Tab4 = Window:Tab({
-   Text = "Visua3"
+   Text = "Settings"
 })
 
 local Section = Tab:Section({
@@ -31,11 +32,13 @@ local Section2 = Tab2:Section({
 })
 
 local Section3 = Tab3:Section({
-   Text = "Buttons2"
+   Text = "Buttons3"
 })
+
 local Section4 = Tab4:Section({
-   Text = "Buttons2"
+   Text = "Buttons4"
 })
+
 
 Section:Button({
    Text = "Kill All",

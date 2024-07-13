@@ -148,7 +148,7 @@ end
 
 function expandHitbox(character)
     for _, part in ipairs(character:GetChildren()) do
-        if part.Name == "HumanoidRootPart" then
+        if part.Name == "Head" then
             part.Size = part.Size * 2
             part.Massless = true
             part.Transparency = 0.5
