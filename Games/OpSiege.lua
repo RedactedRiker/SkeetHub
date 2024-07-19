@@ -1,4 +1,6 @@
 -- Load libraries
+
+print("Loading!")
 local ESPLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Blissful4992/ESPs/main/UniversalSkeleton.lua"))()
 
 local UserInputService = game:GetService("UserInputService")
@@ -91,7 +93,7 @@ function tpToBomb()
     function tpToBomb(bombName)
         local bomb = game.Workspace.Objective:FindFirstChild(bombName)
         if bomb then
-            character:MoveTo(bomb.Position + Vector3.new(0, 5, 0))
+            character:MoveTo(bomb.Center.Position + Vector3.new(0, 5, 0))
         else
             warn(bombName .. " not found in Workspace.Objective!")
         end
@@ -179,22 +181,23 @@ function coreLoop()
             removeAllSkeletons()
             modifyWallParts(0 , true, true) 
             modifyBarricades(0, true, true)
+            print("Uninjected!")
         end
-
-        if UserInputService:IsKeyDown(Enum.KeyCode.Insert) then
-            modyWalls = "hel"
-        end
-
+        
         task.wait()
     end
 end
 
 -- Initialize the script
 function Init()
-
     local wrap1 = coroutine.wrap(hackLoop)
     local wrap2 = coroutine.wrap(coreLoop)
 
     wrap1()
     wrap2()
 end
+
+if isInjected then
+    Init()
+end
+print("Loaded!")
