@@ -16,6 +16,14 @@ local showTeamESP = false
 local breachFolder = game.Workspace:FindFirstChild("SE_Workspace") and game.Workspace.SE_Workspace:FindFirstChild("Breach")
 local baraFolder = game.Workspace:FindFirstChild("SE_Workspace") and game.Workspace.SE_Workspace:FindFirstChild("Doors")
 
+-- HACK TOGGLES / Settings
+local modyWalls = true
+local modyBarricades = true
+local wallOpacity = 0.7
+local baraOpacity = 0.7
+
+
+
 if not baraFolder then
     warn("Barricade folder not found.")
     isInjected = false
@@ -158,16 +166,38 @@ function expandHitbox(character)
     end
 end
 
-local modyWalls = true
+function enabledWallHack()
+    modifyWallParts(wallOpacity , false, true)  
+end
+
+function disabledWallParts()
+    modifyWallParts(0 , true, true) 
+end
+
+function enabledBaraHack()
+    modifyWallParts(baraOpacity , false, true)  
+end
+
+function disabledBaraHack()
+    modifyWallParts(0 , true, true) 
+end
+
 
 -- Main hack loop
 function hackLoop()
     createSkeletons()
     while isInjected do
-        if modyWalls == true then
-            modifyWallParts(0.7 , false, true)  
+        if modyWalls then
+            enabledWallHack()
+        else 
+            disabledWallParts()
         end
-        modifyBarricades(0.7, false, true)
+        if modyBarricades then
+            enabledBaraHack()
+        else
+            disabledBaraHack()
+        end
+        
         DetectOperators()
         task.wait(1)
     end

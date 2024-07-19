@@ -1,39 +1,71 @@
-local UILib = loadstring(game:HttpGet('https://raw.githubusercontent.com/StepBroFurious/Script/main/HydraHubUi.lua'))()
-local Window = UILib.new("Grand Piece Online", game.Players.LocalPlayer.UserId, "Buyer")
-local Category1 = Window:Category("Main", "http://www.roblox.com/asset/?id=8395621517")
-local SubButton1 = Category1:Button("Combat", "http://www.roblox.com/asset/?id=8395747586")
-local Section1 = SubButton1:Section("Section", "Left")
+local UILib = (loadstring(game:HttpGet("https://raw.githubusercontent.com/StepBroFurious/Script/main/HydraHubUi.lua")))();
+local Window = UILib.new("Operation: Siege", game.Players.LocalPlayer.UserId, "Buyer");
 
-Section1:Button({
-    Title = "Kill All",
-    ButtonName = "KILL!!",
-    Description = "kills everyone"
-}, function(value) print(value) end)
+local CombatCategory = Window:Category("Combat", "http://www.roblox.com/asset/?id=18438759105");
+local VisualsCategory = Window:Category("Visuals", "http://www.roblox.com/asset/?id=18438764404");
+local MiscCategory = Window:Category("Misc", "http://www.roblox.com/asset/?id=18438761439");
+local SettingsCategory = Window:Category("Settings", "http://www.roblox.com/asset/?id=18438766957");
 
-Section1:Toggle({
-    Title = "Auto Farm Coins",
-    Description = "Optional Description here",
-    Default = false
-}, function(value) print(value) end)
+local CCButton1 = CombatCategory:Button("Rage", "http://www.roblox.com/asset/?id=8395747586");
+local CCButton2 = CombatCategory:Button("Legit", "http://www.roblox.com/asset/?id=8395747586");
 
-Section1:Slider({
-    Title = "Walkspeed",
-    Description = "",
-    Default = 16,
-    Min = 0,
-    Max = 120
-}, function(value) print(value) end)
+local CCSection1 = CCButton1:Section("Rage Features", "Left");
+local CCSection2 = CCButton2:Section("Legit Features", "Left")
 
-Section1:ColorPicker({
-    Title = "Colorpicker",
-    Description = "",
-    Default = Color3.new(255, 0, 0)
-}, function(value) print(value) end)
 
-Section1:Textbox({Title = "Damage Multiplier", Description = "", Default = ""}, function(value) print(value) end)
+-- Combat Category
+CCSection1:Button({
+	Title = "Kill All",
+	ButtonName = "KILL!!",
+	Description = "kills everyone"
+}, function(value)
+	print(value);
+end);
 
-Section1:Keybind({
-    Title = "Kill All",
-    Description = "",
-    Default = Enum.KeyCode.Q
-}, function(value) print(value) end)
+CCSection1:Toggle({
+	Title = "Auto Farm Coins",
+	Description = "Optional Description here",
+	Default = false
+}, function(value)
+	print(value);
+end);
+
+CCSection1:Slider({
+	Title = "Walkspeed",
+	Description = "",
+	Default = 16,
+	Min = 0,
+	Max = 120
+}, function(value)
+	print(value);
+end);
+
+CCSection1:ColorPicker({
+	Title = "Colorpicker",
+	Description = "",
+	Default = Color3.new(255, 0, 0)
+}, function(value)
+	print(value);
+end);
+
+CCSection1:Textbox({
+	Title = "Damage Multiplier",
+	Description = "",
+	Default = ""
+}, function(value)
+	print(value);
+end);
+
+CCSection1:Keybind({
+	Title = "Kill All",
+	Description = "",
+	Default = Enum.KeyCode.Q
+}, function(value)
+	print(value);
+end);
+
+-- Visuals Category
+
+-- Misc Category
+
+-- Settings Category

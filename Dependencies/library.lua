@@ -3238,8 +3238,7 @@ end
 function UILibrary.new(gameName, userId, rank)
     local GUI = Instance.new("ScreenGui")
     GUI.Name = HttpService:GenerateGUID(false)
-    GUI.Parent =
-        RunService:IsStudio() == false and game:GetService("CoreGui") or LocalPlayer:WaitForChild("PlayerGui")
+    GUI.Parent = RunService:IsStudio() == false and game:GetService("CoreGui") or LocalPlayer:WaitForChild("PlayerGui")
     GUI.ResetOnSpawn = false
     GUI.ZIndexBehavior = Enum.ZIndexBehavior.Global
 
@@ -3773,6 +3772,10 @@ function UILibrary.Window:ChangeCategory(new)
             self:ChangeCategorySelection(firstChild.Name)
         end
     end
+end
+
+function UILibrary:Unload() 
+    UILibrary:Destroy()
 end
 
 function UILibrary.Window:ChangeCategorySelection(name)
