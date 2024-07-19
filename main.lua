@@ -1,110 +1,39 @@
-local Library = loadstring(game:HttpGet('https://github.com/RedactedRiker/SkeetHub/blob/main/library.lua'))()
-Library.Theme = "Dark"
-local Flags = Library.Flags
+local UILib = loadstring(game:HttpGet('https://raw.githubusercontent.com/StepBroFurious/Script/main/HydraHubUi.lua'))()
+local Window = UILib.new("Grand Piece Online", game.Players.LocalPlayer.UserId, "Buyer")
+local Category1 = Window:Category("Main", "http://www.roblox.com/asset/?id=8395621517")
+local SubButton1 = Category1:Button("Combat", "http://www.roblox.com/asset/?id=8395747586")
+local Section1 = SubButton1:Section("Section", "Left")
 
-local Window = Library:Window({
-   Text = "SkeetHub"
-})
+Section1:Button({
+    Title = "Kill All",
+    ButtonName = "KILL!!",
+    Description = "kills everyone"
+}, function(value) print(value) end)
 
+Section1:Toggle({
+    Title = "Auto Farm Coins",
+    Description = "Optional Description here",
+    Default = false
+}, function(value) print(value) end)
 
-local Tab = Window:Tab({
-   Text = "Aiming"
-})
+Section1:Slider({
+    Title = "Walkspeed",
+    Description = "",
+    Default = 16,
+    Min = 0,
+    Max = 120
+}, function(value) print(value) end)
 
-local Tab2 = Window:Tab({
-   Text = "Visual"
-})
+Section1:ColorPicker({
+    Title = "Colorpicker",
+    Description = "",
+    Default = Color3.new(255, 0, 0)
+}, function(value) print(value) end)
 
-local Tab3 = Window:Tab({
-   Text = "Misc"
-})
+Section1:Textbox({Title = "Damage Multiplier", Description = "", Default = ""}, function(value) print(value) end)
 
-local Tab4 = Window:Tab({
-   Text = "Settings"
-})
-
-local Section = Tab:Section({
-   Text = "Buttons"
-})
-
-local Section2 = Tab2:Section({
-   Text = "Buttons2"
-})
-
-local Section3 = Tab3:Section({
-   Text = "Buttons3"
-})
-
-local Section4 = Tab4:Section({
-   Text = "Buttons4"
-})
-
-
-Section:Button({
-   Text = "Kill All",
-   Callback = function()
-       warn("Killed All")
-   end
-})
-
-Section2:Button({
-   Text = "Kick",
-   Callback = function()
-       warn("Kick.")
-   end
-})
-
-Section2:Keybind({
-   Text = "Press",
-   Default = Enum.KeyCode.Z,
-   Callback = function()
-       warn("Pressed.")
-   end
-})
-
-Section2:Input({
-   Text = "Lil Input",
-   Callback = function(txt)
-       warn(txt)
-   end
-})
-
-Section:Button({
-   Text = "Kill",
-   Callback = function()
-       warn("Teleported")
-   end
-})
-
-local drop = Section:Dropdown({
-   Text = "Choose",
-   List = {"Idk", "Test"},
-   Callback = function(v)
-       warn(v)
-   end
-})
-
-Section:Slider({
-   Text = "Speed",
-   Default = 25,
-   Minimum = 0,
-   Maximum = 200
-})
-
-Section:Toggle({
-   Text = "Farm",
-   Callback = function(bool)
-       warn(bool)
-   end
-})
-
-Section:Button({
-   Text = "Refresh Dropdown",
-   Callback = function()
-       drop:Remove("Test")
-       wait(2)
-       drop:Add("123")
-   end
-})
-
-Tab:Select()
+Section1:Keybind({
+    Title = "Kill All",
+    Description = "",
+    Default = Enum.KeyCode.Q
+}, function(value) print(value) end)
