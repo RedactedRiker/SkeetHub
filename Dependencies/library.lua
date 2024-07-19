@@ -1,6 +1,9 @@
 local UILibrary = {}
 --// Modules
 
+local GUI
+
+
 local function getObjGen()
     local objGen = {}
 
@@ -3236,7 +3239,7 @@ for i, v in pairs(UILibNames) do
 end
 
 function UILibrary.new(gameName, userId, rank)
-    local GUI = Instance.new("ScreenGui")
+    GUI = Instance.new("ScreenGui")
     GUI.Name = HttpService:GenerateGUID(false)
     GUI.Parent = RunService:IsStudio() == false and game:GetService("CoreGui") or LocalPlayer:WaitForChild("PlayerGui")
     GUI.ResetOnSpawn = false
@@ -3775,7 +3778,7 @@ function UILibrary.Window:ChangeCategory(new)
 end
 
 function UILibrary:Unload() 
-    UILibrary:Destroy()
+    GUI:Destroy()
 end
 
 function UILibrary.Window:ChangeCategorySelection(name)
