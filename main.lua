@@ -1,5 +1,12 @@
-local UILib = (loadstring(game:HttpGet("https://raw.githubusercontent.com/StepBroFurious/Script/main/HydraHubUi.lua")))();
+local UILib = (loadstring(game:HttpGet("https://raw.githubusercontent.com/RedactedRiker/SkeetHub/main/Dependencies/library.lua")))();
 local Window = UILib.new("Operation: Siege", game.Players.LocalPlayer.UserId, "Buyer");
+
+--[[
+	CC = Combat Catagory
+	SC = Settings Catagory
+]]--
+
+local isInjected -- REMOVE THIS
 
 local CombatCategory = Window:Category("Combat", "http://www.roblox.com/asset/?id=18438759105");
 local VisualsCategory = Window:Category("Visuals", "http://www.roblox.com/asset/?id=18438764404");
@@ -9,9 +16,15 @@ local SettingsCategory = Window:Category("Settings", "http://www.roblox.com/asse
 local CCButton1 = CombatCategory:Button("Rage", "http://www.roblox.com/asset/?id=8395747586");
 local CCButton2 = CombatCategory:Button("Legit", "http://www.roblox.com/asset/?id=8395747586");
 
+local SCButton1 = SettingsCategory:Button("Main", "http://www.roblox.com/asset/?id=8395747586");
+
 local CCSection1 = CCButton1:Section("Rage Features", "Left");
 local CCSection2 = CCButton2:Section("Legit Features", "Left")
 
+local SCSection1 = SCButton1:Section("Unload", "Left");
+
+-- Theoretically i think opSiege lib loading works?
+-- TESTING it now
 
 -- Combat Category
 CCSection1:Button({
@@ -69,3 +82,12 @@ end);
 -- Misc Category
 
 -- Settings Category
+SCSection1:Button({
+	Title = "Unload",
+	ButtonName = "Unload",
+	Description = "Unloads Cheats"
+}, function(value)
+	UILib:Unload()
+	isInjected = false
+   
+end);
