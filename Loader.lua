@@ -1,6 +1,7 @@
 local gameID
 local gameName
 local scriptLink
+local player = game.Players.LocalPlayer
 
 local ScriptLinks = {
     OperationSiege = 'https://raw.githubusercontent.com/RedactedRiker/SkeetHub/main/OpSiege.lua',
@@ -11,6 +12,10 @@ local GameIds = {
         13997018456, -- HUB
         13997264379, -- Casual
         -- Ranked { ID Needed }
+    },
+
+    ["RIVALS"] = {
+        17625359962,
     },
 }
 
@@ -26,7 +31,7 @@ end
 function getGameScript()
     if (gameID == nil) then
         -- warn("No Game Found")
-        game.Players.LocalPlayer:Kick("This game is not supported!")
+        player:Kick("This game is not supported!")
         return
     end
 

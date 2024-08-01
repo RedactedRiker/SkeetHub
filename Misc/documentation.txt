@@ -22,3 +22,58 @@ local Section = SubButton:Section(string name, string side (either Left or Right
   - Section:Slider(dictionary settings (Title, Description, number Min, number Max, number Default), function Callback - fired with number)
   - Section:Dropdown - this one is vague as fuck - just look into the code for it.
 ]]
+
+
+--[[
+
+  CCSection1:Button({
+	Title = "Kill All",
+	ButtonName = "KILL!!",
+	Description = "kills everyone"
+}, function(value)
+	print(value);
+end);
+
+CCSection1:Toggle({
+	Title = "Auto Farm Coins",
+	Description = "Optional Description here",
+	Default = false
+}, function(value)
+	print(value);
+end);
+
+CCSection1:Slider({
+	Title = "Walkspeed",
+	Description = "",
+	Default = 16,
+	Min = 0,
+	Max = 120
+}, function(value)
+	print(value);
+end);
+
+CCSection1:ColorPicker({
+	Title = "Colorpicker",
+	Description = "",
+	Default = Color3.new(255, 0, 0)
+}, function(value)
+	print(value);
+end);
+
+CCSection1:Textbox({
+	Title = "Damage Multiplier",
+	Description = "",
+	Default = ""
+}, function(value)
+	print(value);
+end);
+
+CCSection1:Keybind({
+	Title = "Kill All",
+	Description = "",
+	Default = Enum.KeyCode.Q
+}, function(value)
+	print(value);
+end);
+
+]]--

@@ -6,8 +6,6 @@ local Window = UILib.new("Operation: Siege", game.Players.LocalPlayer.UserId, "B
 	SC = Settings Catagory
 ]]--
 
-local isInjected -- REMOVE THIS
-
 local CombatCategory = Window:Category("Combat", "http://www.roblox.com/asset/?id=18438759105");
 local VisualsCategory = Window:Category("Visuals", "http://www.roblox.com/asset/?id=18438764404");
 local MiscCategory = Window:Category("Misc", "http://www.roblox.com/asset/?id=18438761439");
@@ -22,9 +20,6 @@ local CCSection1 = CCButton1:Section("Rage Features", "Left");
 local CCSection2 = CCButton2:Section("Legit Features", "Left")
 
 local SCSection1 = SCButton1:Section("Unload", "Left");
-
--- Theoretically i think opSiege lib loading works?
--- TESTING it now
 
 -- Combat Category
 CCSection1:Button({
@@ -88,6 +83,4 @@ SCSection1:Button({
 	Description = "Unloads Cheats"
 }, function(value)
 	UILib:Unload()
-	isInjected = false
-   
 end);

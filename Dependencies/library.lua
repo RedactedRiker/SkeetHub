@@ -3781,6 +3781,10 @@ function UILibrary:Unload()
     GUI:Destroy()
 end
 
+function UILibrary:ToggleGui()
+    print("Ui Hidden")
+end
+
 function UILibrary.Window:ChangeCategorySelection(name)
     local catFolder = self.MainUI.MainUI.Sidebar.Sidebar2[self.currentSelection.Name].Bar2Holder
     local Object = catFolder:FindFirstChild(name)
